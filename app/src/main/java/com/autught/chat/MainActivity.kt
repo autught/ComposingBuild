@@ -1,9 +1,10 @@
 package com.autught.chat
 
-import android.app.Activity
 import android.os.Bundle
+import com.autught.chat.main.BaseActivity
 
-class MainActivity : Activity() {
+class MainActivity : BaseActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 //        setContent {
