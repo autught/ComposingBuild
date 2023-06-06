@@ -2,7 +2,9 @@ package com.autught.chat
 
 import android.os.Bundle
 import com.autught.chat.main.BaseActivity
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {

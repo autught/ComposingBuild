@@ -8,5 +8,6 @@ object BuildConfig {
     const val versionCode = 1
     const val versionName = "1.0.0"
 
-    const val baseUrl=""
+    //域名
+    const val baseUrl = "\"TO_SET\""
 }

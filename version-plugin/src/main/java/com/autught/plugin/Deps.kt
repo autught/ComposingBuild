@@ -1,6 +1,8 @@
 package com.autught.plugin
 
 
+
+
 object Versions {
     const val junit = "4.13.2"
     const val test_junit = "1.1.3"
@@ -13,7 +15,7 @@ object Versions {
     const val moshi = "1.15.0"
     const val okhttp = "5.0.0-alpha.11"
 
-    const val hilt = "2.44"
+    const val hilt = "2.40"
 }
 
 object Libraries {

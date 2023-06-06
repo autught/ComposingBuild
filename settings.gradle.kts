@@ -1,4 +1,4 @@
-pluginManagement {
+/*pluginManagement {
     includeBuild("version-plugin")
     repositories {
         google()
@@ -12,6 +12,8 @@ dependencyResolutionManagement {
         google()
         mavenCentral()
     }
-}
+}*/
+
 rootProject.name = "Chat"
 include(":app")
+includeBuild("version-plugin")

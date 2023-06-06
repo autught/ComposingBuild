@@ -1,17 +1,20 @@
 package com.autught.chat.views
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Canvas
-import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.ViewStub
+import android.widget.FrameLayout
 import java.lang.ref.WeakReference
 
+/**
+ * copy
+ */
 class LinearViewStub(context: Context) : View(context) {
 
 
-    private var mInflatedViewRef: WeakReference<View>? = null
+    private var mInflatedViewRef: WeakReference<FrameLayout>? = null
 
 
     init {
@@ -19,31 +22,13 @@ class LinearViewStub(context: Context) : View(context) {
         setWillNotDraw(true)
     }
 
-
-
-
-
-
-    /**
-     * Set [LayoutInflater] to use in [.inflate], or `null`
-     * to use the default.
-     */
-    fun setLayoutInflater(inflater: LayoutInflater?) {
-        mInflater = inflater
-    }
-
-    /**
-     * Get current [LayoutInflater] used in [.inflate].
-     */
-    fun getLayoutInflater(): LayoutInflater? {
-        return mInflater
-    }
-
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         setMeasuredDimension(0, 0)
     }
 
-    override fun draw(canvas: Canvas?) {}
+    @SuppressLint("MissingSuperCall")
+    override fun draw(canvas: Canvas?) {
+    }
 
     override fun dispatchDraw(canvas: Canvas?) {}
 
@@ -57,7 +42,6 @@ class LinearViewStub(context: Context) : View(context) {
      *
      * @see .inflate
      */
-    @android.view.RemotableViewMethod(asyncImpl = "setVisibilityAsync")
     override fun setVisibility(visibility: Int) {
         if (mInflatedViewRef != null) {
             val view = mInflatedViewRef!!.get()
@@ -85,21 +69,17 @@ class LinearViewStub(context: Context) : View(context) {
         }
     }
 
-    private fun inflateViewNoAdd(parent: ViewGroup): View {
-        val factory: LayoutInflater
-        factory = if (mInflater != null) {
-            mInflater
-        } else {
-            LayoutInflater.from(mContext)
+    private fun inflateViewNoAdd(parent: ViewGroup): FrameLayout {
+        return FrameLayout(parent.context).also {
+            it.layoutParams = ViewGroup.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.MATCH_PARENT
+            )
         }
-        val view = factory.inflate(mLayoutResource, parent, false)
-        if (mInflatedId != NO_ID) {
-            view.id = mInflatedId
-        }
-        return view
     }
 
-    private fun replaceSelfWithView(view: View, parent: ViewGroup) {
+    fun replaceSelfWithView(view: View, parent: ViewGroup?) {
+        parent?:return
         val index = parent.indexOfChild(this)
         parent.removeViewInLayout(this)
         val layoutParams = layoutParams
@@ -116,61 +96,24 @@ class LinearViewStub(context: Context) : View(context) {
      *
      * @return The inflated layout resource.
      */
-    fun inflate(): View? {
+    fun inflate(): FrameLayout {
         val viewParent = parent
         return if (viewParent != null && viewParent is ViewGroup) {
-            if (mLayoutResource != 0) {
-                val parent = viewParent
-                val view = inflateViewNoAdd(parent)
-                replaceSelfWithView(view, parent)
-                mInflatedViewRef = WeakReference(view)
-                if (mInflateListener != null) {
-                    mInflateListener!!.onInflate(this, view)
-                }
-                view
-            } else {
-                throw IllegalArgumentException("ViewStub must have a valid layoutResource")
+            inflateViewNoAdd(viewParent).also {
+                replaceSelfWithView(it, viewParent)
+                mInflatedViewRef = WeakReference(it)
             }
         } else {
             throw IllegalStateException("ViewStub must have a non-null ViewGroup viewParent")
         }
     }
 
-    /**
-     * Specifies the inflate listener to be notified after this ViewStub successfully
-     * inflated its layout resource.
-     *
-     * @param inflateListener The OnInflateListener to notify of successful inflation.
-     *
-     * @see android.view.ViewStub.OnInflateListener
-     */
-    fun setOnInflateListener(inflateListener: OnInflateListener?) {
-        mInflateListener = inflateListener
-    }
-
-    /**
-     * Listener used to receive a notification after a ViewStub has successfully
-     * inflated its layout resource.
-     *
-     * @see android.view.ViewStub.setOnInflateListener
-     */
-    interface OnInflateListener {
-        /**
-         * Invoked after a ViewStub successfully inflated its layout resource.
-         * This method is invoked after the inflated view was added to the
-         * hierarchy but before the layout pass.
-         *
-         * @param stub The ViewStub that initiated the inflation.
-         * @param inflated The inflated View.
-         */
-        fun onInflate(stub: ViewStub?, inflated: View?)
-    }
 
     /** @hide
      */
-    class ViewReplaceRunnable internal constructor(val view: View) : Runnable {
+    inner class ViewReplaceRunnable(private val view: View) : Runnable {
         override fun run() {
-            replaceSelfWithView(view, getParent() as ViewGroup?)
+            replaceSelfWithView(view, parent as ViewGroup?)
         }
     }
 }

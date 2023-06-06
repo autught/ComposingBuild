@@ -6,16 +6,15 @@ import com.autught.plugin.androidTest
 
 plugins {
     kotlin("kapt")
+    kotlin("android")
     id("com.android.application")
-    id("org.jetbrains.kotlin.android")
-    id("com.autught.version-plugin")
-    id("com.google.dagger.hilt.android")
+    id("com.autught.version-plugin") apply false
+    id("dagger.hilt.android.plugin")
 }
 
 android {
     namespace = BuildConfig.appId
     compileSdk = BuildConfig.compileSdkVersion
-    buildFeatures.buildConfig = true
 
 
     defaultConfig {
@@ -29,7 +28,7 @@ android {
         vectorDrawables {
             useSupportLibrary = true
         }
-        buildConfigField("String","BASE_URL",BuildConfig.baseUrl)
+        buildConfigField("String", "BASE_URL", BuildConfig.baseUrl)
     }
 
     buildTypes {
@@ -46,6 +45,7 @@ android {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
+
     kotlinOptions {
         jvmTarget = "1.8"
     }
@@ -55,7 +55,7 @@ android {
         buildConfig = true
     }
 
-    packaging {
+    packagingOptions {
         resources {
             excludes.add("/META-INF/{AL2.0,LGPL2.1}")
         }
@@ -67,6 +67,7 @@ android {
 }
 
 dependencies {
+    implementation(fileTree(mapOf("include" to listOf("*.jar"), "dir" to "libs")))
     implementation(Libraries.lifecycleRuntime)
     implementation(Libraries.glide)
     implementation("androidx.appcompat:appcompat:1.4.1")
