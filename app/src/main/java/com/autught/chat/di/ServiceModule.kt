@@ -1,12 +1,12 @@
 package com.autught.chat.di
 
-import com.autught.chat.net.ApiService
-import com.autught.chat.BuildConfig
+import com.autught.chat.remote.ApiService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import retrofit2.Retrofit
+import javax.inject.Named
 import javax.inject.Singleton
 
 
@@ -19,10 +19,10 @@ class ServiceModule {
      */
     @Singleton
     @Provides
-    fun provideApiService(retrofit: Retrofit): ApiService {
+    fun provideApiService(@Named(api) retrofit: Retrofit): ApiService {
         return retrofit.create(ApiService::class.java)
     }
 
 
-    //。其他service同上
+    //其他service同上
 }

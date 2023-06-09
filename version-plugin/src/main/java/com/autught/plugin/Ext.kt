@@ -2,6 +2,9 @@ package com.autught.plugin
 
 import org.gradle.kotlin.dsl.DependencyHandlerScope
 
+
+const val imp = "implementation"
+const val kapt = "kapt"
 fun DependencyHandlerScope.androidTest() {
     "testImplementation"(Libraries.junit)
     "androidTestImplementation"(Libraries.testJunit)
@@ -9,12 +12,30 @@ fun DependencyHandlerScope.androidTest() {
 }
 
 fun DependencyHandlerScope.androidNet() {
-    "implementation"(Libraries.retrofit)
-    "implementation"(Libraries.okhttp)
-    "implementation"(Libraries.moshi)
+    imp(Libraries.retrofit)
+    imp(Libraries.okhttp)
+    imp(Libraries.okhttpLog)
+    imp(Libraries.moshi)
+    imp(Libraries.moshiConvert)
+    kapt(Libraries.moshiKapt)
 }
 
-fun DependencyHandlerScope.androidDI() {
-    "implementation"(Libraries.hilt)
-    "kapt"(Libraries.hiltCompiler)
+fun DependencyHandlerScope.androidDi() {
+    imp(Libraries.hilt)
+    kapt(Libraries.hiltCompiler)
+}
+
+fun DependencyHandlerScope.androidAnko() {
+    imp(Libraries.splittieCtx)
+    imp(Libraries.splittieView)
+    imp(Libraries.splittieRv)
+    imp(Libraries.splittieDSL)
+    imp(Libraries.splittieDSLAppcompat)
+    imp(Libraries.splittieDSLConstraint)
+}
+
+fun DependencyHandlerScope.androidDb() {
+    imp(Libraries.room)
+    imp(Libraries.roomKt)
+    kapt(Libraries.roomCompiler)
 }

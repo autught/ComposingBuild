@@ -2,8 +2,8 @@ package com.autught.chat.main
 
 import android.view.ViewStub
 
-class LoadingImp:ILoading {
-    override fun loading(stub:ViewStub) {
+object LoadingImp:ILoading {
+    override fun loading() {
 
     }
 

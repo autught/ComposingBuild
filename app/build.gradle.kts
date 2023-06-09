@@ -1,6 +1,8 @@
 import com.autught.plugin.BuildConfig
 import com.autught.plugin.Libraries
-import com.autught.plugin.androidDI
+import com.autught.plugin.androidAnko
+import com.autught.plugin.androidDb
+import com.autught.plugin.androidDi
 import com.autught.plugin.androidNet
 import com.autught.plugin.androidTest
 
@@ -25,10 +27,14 @@ android {
         versionName = BuildConfig.versionName
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        vectorDrawables {
-            useSupportLibrary = true
-        }
+        vectorDrawables.useSupportLibrary = true
         buildConfigField("String", "BASE_URL", BuildConfig.baseUrl)
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                argument("room.schemaLocation", "$projectDir/schemas")
+            }
+        }
     }
 
     buildTypes {
@@ -41,21 +47,17 @@ android {
             )
         }
     }
+
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
 
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = JavaVersion.VERSION_17.majorVersion
     }
 
-
-    buildFeatures {
-        buildConfig = true
-    }
-
-    packagingOptions {
+    packaging {
         resources {
             excludes.add("/META-INF/{AL2.0,LGPL2.1}")
         }
@@ -68,11 +70,14 @@ android {
 
 dependencies {
     implementation(fileTree(mapOf("include" to listOf("*.jar"), "dir" to "libs")))
-    implementation(Libraries.lifecycleRuntime)
     implementation(Libraries.glide)
-    implementation("androidx.appcompat:appcompat:1.4.1")
-//    implementation("androidx.core:core-ktx:+")
-    androidDI()
+    implementation(Libraries.appcompat)
+    implementation(Libraries.activitykt)
+    implementation(Libraries.fragmentKt)
+    implementation(Libraries.datastore)
+    androidDi()
+    androidDb()
     androidNet()
+    androidAnko()
     androidTest()
 }

@@ -17,3 +17,4 @@ dependencyResolutionManagement {
 rootProject.name = "Chat"
 include(":app")
 includeBuild("version-plugin")
+include(":lib")

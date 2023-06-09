@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="QMUILoadingView">
+        <attr name="loading_view_size" format="dimension"/>
+        <attr name="android_color" format="color"/>
+    </declare-styleable>
+</resources>
