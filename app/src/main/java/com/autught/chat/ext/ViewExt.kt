@@ -1,5 +1,8 @@
 package com.autught.chat.ext
 
+import android.graphics.Outline
+import android.view.View
+import android.view.ViewOutlineProvider
 import androidx.appcompat.widget.AppCompatEditText
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
@@ -35,4 +38,16 @@ object ViewExt {
     fun AppCompatImageView.loadImage(url: String) {
         Glide.with(this).load(url).into(this)
     }
+
+    fun View.corner(radius: Float) {
+        clipToOutline = true
+        outlineProvider = object : ViewOutlineProvider() {
+            override fun getOutline(p0: View?, p1: Outline?) {
+                p0?.let {
+                    p1?.setRoundRect(0, 0, it.width, it.height, radius)
+                }
+            }
+        }
+    }
+
 }

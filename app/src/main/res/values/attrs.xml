@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="EditCanSee">
+        <attr name="ecs_lineColor" format="color"/>
+        <attr name="ecs_seeDrawable" format="reference"/>
+    </declare-styleable>
+</resources>
